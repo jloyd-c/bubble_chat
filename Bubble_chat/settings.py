@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'ccs',
-    'educ',
-    'cn',
-    'crim',
-    'cbaa',
+    'apps.ccs',
+    'apps.educ',
+    'apps.cn',
+    'apps.crim',
+    'apps.cbaa',
 ]
 
 MIDDLEWARE = [

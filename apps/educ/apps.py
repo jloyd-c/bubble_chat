@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CcsConfig(AppConfig):
+class EducConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'ccs'
+    name = 'apps.educ'
