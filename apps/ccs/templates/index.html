@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CCS Chat</title>
+</head>
+<body>
+    <h1>CCS Chat Room</h1>
+    <input id="messageInput" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+    <ul id="messages"></ul>
+
+    <script>
+        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+        const socket = new WebSocket(
+            protocol + "://" + window.location.host + "/ws/ccs/"
+        );
+
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const li = document.createElement("li");
+            li.textContent = data.message;
+            document.getElementById("messages").appendChild(li);
+
+            // Auto-remove after 30 seconds
+            setTimeout(() => li.remove(), 60000);
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("messageInput");
+            const message = input.value;
+            if(message.trim() === "") return;
+            socket.send(JSON.stringify({'message': message}));
+            input.value = "";
+        }
+    </script>
+</body>
+</html>

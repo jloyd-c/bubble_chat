@@ -11,6 +11,20 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+"""
+Bagong Import for handling real-time chat with WebSockets
+"""
+import apps.ccs.routing
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Bubble_chat.settings')
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({
+    "http": get_asgi_application(),  # Django HTTP handling
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            apps.ccs.routing.websocket_urlpatterns  # WebSocket routes
+        )
+    ),
+})
