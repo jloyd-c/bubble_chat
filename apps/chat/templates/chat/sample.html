@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CCS Chat Room</title>
+    <link rel="stylesheet" href="ccs_design.css">
+</head>
+<body>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #1e222e;
+}
+
+.chat-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 300px;
+    background: #151924;
+    padding: 20px;
+    color: white;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dept {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1f2433;
+}
+
+.dept img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.dept p {
+    font-size: 12px;
+    color: #7fff7f;
+}
+
+.dept.active {
+    border: 1px solid #7fff7f;
+    background: #202634;
+}
+
+.theme-toggle {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+.theme-toggle button {
+    padding: 6px 20px;
+    border-radius: 20px;
+    border: none;
+}
+
+.theme-toggle .active {
+    background: #2a2f40;
+    color: white;
+}
+
+/* ================= CHAT AREA ================= */
+
+.chat-area {
+    flex: 1;
+    background: #252a3a;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: relative;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.message.left {
+    align-self: flex-start;
+}
+
+.message.right {
+    align-self: flex-end;
+}
+
+/* AVATARS */
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.avatar.green {
+    background: #6cff6c;
+}
+
+.avatar.brown {
+    background: #b39b6a;
+}
+
+/* BUBBLES */
+
+.bubble {
+    width: 300px;
+    height: 80px;
+    border-radius: 15px;
+}
+
+.bubble.gray {
+    background: #8a8a8a;
+    border-left: 6px solid #6cff6c;
+}
+
+.bubble.green {
+    background: #8cff59;
+}
+
+/* ================= INPUT ================= */
+
+.chat-input {
+    position: absolute;
+    bottom: 20px;
+    width: 92%;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 20px;
+    border: none;
+}
+
+.chat-input button {
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: none;
+    background: #3a3f51;
+    color: white;
+    cursor: pointer;
+}
+
+    </style>
+
+<div class="chat-container">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+        <h2>DEPARTMENTS</h2>
+
+        <div class="dept active">
+            <img src="images/ccs_logo.png">
+            <div>
+                <h4>CCS, CLA & TETD</h4>
+                <p>25 members online</p>
+            </div>
+        </div>
+
+        <div class="dept"><img src="images/cbaa.png"><span>CBAA</span></div>
+        <div class="dept"><img src="images/ccje.png"><span>CCJE</span></div>
+        <div class="dept"><img src="images/cn.png"><span>CN</span></div>
+        <div class="dept"><img src="images/ce.png"><span>CE</span></div>
+        <div class="dept"><img src="images/hs.png"><span>HIGH SCHOOL DEPT.</span></div>
+
+        <div class="theme-toggle">
+            <button>Light</button>
+            <button class="active">Dark</button>
+        </div>
+    </div>
+
+    <!-- CHAT AREA -->
+    <div class="chat-area">
+
+        <div class="message left">
+            <div class="avatar">C</div>
+            <div class="bubble gray"></div>
+        </div>
+
+        <div class="message left">
+            <div class="avatar green">P</div>
+            <div class="bubble gray"></div>
+        </div>
+
+        <div class="message right">
+            <div class="bubble green"></div>
+            <div class="avatar">g</div>
+        </div>
+
+        <div class="message left">
+            <div class="avatar brown"></div>
+            <div class="bubble gray"></div>
+        </div>
+
+        <div class="message right">
+            <div class="bubble green"></div>
+            <div class="avatar">g</div>
+        </div>
+
+        <!-- INPUT BAR -->
+        <div class="chat-input">
+            <input type="text" placeholder="Type here...">
+            <button>Send</button>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

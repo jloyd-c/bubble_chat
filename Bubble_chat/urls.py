@@ -15,14 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from apps.chat import views as chat_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ccs/', include('apps.ccs.urls')),
-    path('cn/', include('apps.cn.urls')),
-    path('educ/', include('apps.educ.urls')),
-    path('cbaa/', include('apps.cbaa.urls')),
-    path('crim/', include('apps.crim.urls')),
+
+    # Unified chat routes (keep your old URLs)
+    path("ccs/", chat_views.chat_room, {"room_name": "ccs"}, name="ccs_chat"),
+    path("cn/", chat_views.chat_room, {"room_name": "cn"}, name="cn_chat"),
+    path("educ/", chat_views.chat_room, {"room_name": "educ"}, name="educ_chat"),
+    path("cbaa/", chat_views.chat_room, {"room_name": "cbaa"}, name="cbaa_chat"),
+    path("crim/", chat_views.chat_room, {"room_name": "crim"}, name="crim_chat"),
 
 ]

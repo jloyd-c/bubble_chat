@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ room_name|upper }} Chat Room</title>
+</head>
+<body>
+
+<div class="chat-wrapper">
+    <div class="chat-header">
+        <h2>{{ room_name|upper }} CHAT ROOM</h2>
+    </div>
+
+    <div class="chat-messages" id="messages"></div>
+
+    <div class="chat-input-area">
+        <input id="messageInput" type="text" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    const roomName = "{{ room_name }}";
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+
+    const socket = new WebSocket(
+        protocol + "://" + window.location.host + "/ws/chat/" + roomName + "/"
+    );
+
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        const msg = document.createElement("div");
+        msg.classList.add("message");
+        msg.textContent = data.message;
+
+        document.getElementById("messages").appendChild(msg);
+
+        document.getElementById("messages").scrollTop =
+            document.getElementById("messages").scrollHeight;
+    };
+
+    function sendMessage() {
+        const input = document.getElementById("messageInput");
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        socket.send(JSON.stringify({ 'message': message }));
+        input.value = "";
+    }
+</script>
+
+</body>
+</html>
