@@ -4,52 +4,223 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ room_name|upper }} Chat Room</title>
+    <link rel="stylesheet" href="{% static theme_css %}">
+    <style>
+        /* Add fade animation */
+        .message.fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
 
-<div class="chat-wrapper">
-    <div class="chat-header">
-        <h2>{{ room_name|upper }} CHAT ROOM</h2>
+<div class="chat-container">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+        <h2>DEPARTMENTS</h2>
+
+        <a href="/chat/ccs/" class="dept {% if room_name == 'ccs' %}active{% endif %}">
+            <img src="{% static 'images/ccs.GIF' %}">
+            <div>
+                <h4>CCS, CLA & TETD</h4>
+                <p>25 members online</p>
+            </div>
+        </a>
+
+        <a href="/chat/cbaa/" class="dept {% if room_name == 'cbaa' %}active{% endif %}">
+            <img src="{% static 'images/cbaa.GIF' %}">
+            <span>CBAA</span>
+        </a>
+
+        <a href="/chat/ccje/" class="dept {% if room_name == 'ccje' %}active{% endif %}">
+            <img src="{% static 'images/ccje.GIF' %}">
+            <span>CCJE</span>
+        </a>
+
+        <a href="/chat/cn/" class="dept {% if room_name == 'cn' %}active{% endif %}">
+            <img src="{% static 'images/cn.GIF' %}">
+            <span>CN</span>
+        </a>
+
+        <a href="/chat/ce/" class="dept {% if room_name == 'ce' %}active{% endif %}">
+            <img src="{% static 'images/ce.GIF' %}">
+            <span>CE</span>
+        </a>
+
+        <div class="theme-toggle">
+            <button>Light</button>
+            <button class="active">Dark</button>
+        </div>
     </div>
 
-    <div class="chat-messages" id="messages"></div>
+    <!-- RIGHT CHAT AREA -->
+    <div class="chat-area">
 
-    <div class="chat-input-area">
-        <input id="messageInput" type="text" placeholder="Type your message..." />
-        <button onclick="sendMessage()">Send</button>
+        <div class="messages-container" id="messages"></div>
+
+        <div class="chat-input">
+            <input id="messageInput" type="text" placeholder="Type here..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
     </div>
+
 </div>
 
 <script>
+    // ✅ Anonymous nickname setup
+    let username = localStorage.getItem("nickname");
+    if (!username) {
+        username = prompt("Enter your nickname:", "Anonymous") || "Anonymous";
+        localStorage.setItem("nickname", username);
+    }
+
     const roomName = "{{ room_name }}";
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-
     const socket = new WebSocket(
         protocol + "://" + window.location.host + "/ws/chat/" + roomName + "/"
     );
 
+    // Store message timers for cleanup
+    let messageTimers = {};
+
     socket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-
-        const msg = document.createElement("div");
-        msg.classList.add("message");
-        msg.textContent = data.message;
-
-        document.getElementById("messages").appendChild(msg);
-
-        document.getElementById("messages").scrollTop =
-            document.getElementById("messages").scrollHeight;
+        displayMessage(data);
     };
+
+    function displayMessage(data) {
+        const messagesContainer = document.getElementById("messages");
+        const wrapper = document.createElement("div");
+        const avatar = document.createElement("div");
+        avatar.className = "avatar";
+        avatar.textContent = data.sender ? data.sender.charAt(0).toUpperCase() : "?";
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.textContent = data.message;
+
+        // Messenger-style: compare sender after trimming
+        if (data.sender && data.sender.trim() === username) {
+            wrapper.className = "message right";   // YOUR messages
+            wrapper.appendChild(bubble);
+            wrapper.appendChild(avatar);
+        } else {
+            wrapper.className = "message left";    // OTHERS' messages
+            wrapper.appendChild(avatar);
+            wrapper.appendChild(bubble);
+        }
+
+        // ✅ ADD TIMESTAMP AND ID ATTRIBUTES
+        const messageTime = data.timestamp ? new Date(data.timestamp) : new Date();
+        wrapper.setAttribute('data-timestamp', messageTime.toISOString());
+        wrapper.setAttribute('data-message-id', data.message_id || Date.now());
+
+        messagesContainer.appendChild(wrapper);
+
+        // ✅ AUTO-REMOVE AFTER 10 MINUTES (CLIENT-SIDE)
+        const timeUntilExpiry = 600000 - (Date.now() - messageTime.getTime()); // 10 minutes in ms
+        
+        if (timeUntilExpiry > 0) {
+            // Schedule removal
+            const timerId = setTimeout(() => {
+                // Fade out effect
+                wrapper.classList.add('fade-out');
+                
+                // Remove after fade
+                setTimeout(() => {
+                    if (wrapper.parentNode) {
+                        wrapper.parentNode.removeChild(wrapper);
+                    }
+                    if (data.message_id) {
+                        delete messageTimers[data.message_id];
+                    }
+                }, 500);
+            }, timeUntilExpiry);
+            
+            // Store timer for cleanup
+            if (data.message_id) {
+                messageTimers[data.message_id] = timerId;
+            }
+        } else {
+            // Message already older than 10 minutes, remove immediately
+            wrapper.style.display = 'none';
+        }
+
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // ✅ PERIODIC CLEANUP CHECK (every minute)
+    setInterval(() => {
+        const messages = document.querySelectorAll('.message');
+        const now = Date.now();
+        
+        messages.forEach(msg => {
+            const timestamp = msg.getAttribute('data-timestamp');
+            if (timestamp) {
+                const messageTime = new Date(timestamp).getTime();
+                const age = now - messageTime;
+                
+                if (age > 600000) { // Older than 10 minutes
+                    if (!msg.classList.contains('fade-out')) {
+                        msg.classList.add('fade-out');
+                        setTimeout(() => {
+                            if (msg.parentNode) {
+                                msg.parentNode.removeChild(msg);
+                            }
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }, 60000); // Check every minute
 
     function sendMessage() {
         const input = document.getElementById("messageInput");
         const message = input.value.trim();
-
         if (!message) return;
 
-        socket.send(JSON.stringify({ 'message': message }));
+        // ✅ Send nickname with message
+        socket.send(JSON.stringify({ 
+            'message': message,
+            'sender': username 
+        }));
+
         input.value = "";
     }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    // Clean up timers when leaving page
+    window.addEventListener('beforeunload', function() {
+        for (let id in messageTimers) {
+            clearTimeout(messageTimers[id]);
+        }
+    });
+
+    // Initial scroll to bottom
+    window.addEventListener('load', function() {
+        const messagesContainer = document.getElementById("messages");
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
 </script>
 
 </body>

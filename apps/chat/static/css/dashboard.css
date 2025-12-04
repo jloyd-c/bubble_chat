@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #1e222e;
+    color: white;
+    height: 100vh;
+}
+
+/* ================= MAIN LAYOUT ================= */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    width: 250px;
+    background: #151924;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1f2433;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s ease;
+}
+
+.menu-item:hover {
+    background: #2a3045;
+}
+
+.menu-item img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.menu-item h4 {
+    font-size: 14px;
+}
+
+.menu-item p {
+    font-size: 11px;
+    color: #7fff7f;
+}
+
+.menu-item.active {
+    border: 1px solid #7fff7f;
+    background: #202634;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    background: #1e222e;
+    overflow-y: auto;
+}
+
+/* ================= DASHBOARD CARDS ================= */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #202634;
+    border-radius: 15px;
+    padding: 20px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: #2a3045;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.card p {
+    font-size: 13px;
+    color: #7fff7f;
+}
+
+/* ================= HEADER ================= */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 24px;
+}

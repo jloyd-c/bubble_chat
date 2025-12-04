@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>DEPARTMENTS</h2>
+
+        <a href="#" class="menu-item active">
+            <img src="{% static 'images/ccs.GIF' %}" alt="">
+            <div>
+                <h4>CCS</h4>
+                <p>25 members online</p>
+            </div>
+        </a>
+
+        <a href="#" class="menu-item">
+            <img src="{% static 'images/cbaa.GIF' %}" alt="">
+            <div>
+                <h4>CBAA</h4>
+                <p>12 members online</p>
+            </div>
+        </a>
+
+        <a href="#" class="menu-item">
+            <img src="{% static 'images/cn.GIF' %}" alt="">
+            <div>
+                <h4>CN</h4>
+                <p>18 members online</p>
+            </div>
+        </a>
+
+        <!-- Toggle or other sidebar items -->
+        <div class="theme-toggle">
+            <button>Light</button>
+            <button class="active">Dark</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Welcome to the Dashboard</h1>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3>Active Users</h3>
+                <p>23 currently online</p>
+            </div>
+
+            <div class="card">
+                <h3>Messages Today</h3>
+                <p>142 messages sent</p>
+            </div>
+
+            <div class="card">
+                <h3>Departments</h3>
+                <p>5 active departments</p>
+            </div>
+
+            <div class="card">
+                <h3>Server Status</h3>
+                <p>All systems operational</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

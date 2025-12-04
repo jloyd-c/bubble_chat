@@ -1,34 +1,203 @@
-/* CCS Chat Room Design */
-
-/* Import the base layout */
-@import url('base.css');
-
-/* Header */
-.chat-header {
-    background-color: #1a73e8; /* CCS blue */
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    text-align: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-/* Messages */
-.message {
-    background: #e0f0ff; /* light blue for CCS messages */
-    color: #000;
-    padding: 10px;
-    border-radius: 8px;
+body {
+    background: #1e222e;
+    height: 100vh;
+}
+
+/* ================= MAIN LAYOUT ================= */
+
+.chat-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 300px;
+    background: #151924;
+    padding: 20px;
+    color: white;
+    position: relative;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.dept {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
     margin-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #1f2433;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s ease;
+}
+
+.dept:hover {
+    background: #2a3045;
+}
+
+.dept img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.dept h4 {
     font-size: 14px;
 }
 
-/* Input Area */
-.chat-input-area input {
-    border: 1px solid #1a73e8;
+.dept p {
+    font-size: 11px;
+    color: #7fff7f;
 }
 
-.chat-input-area button {
-    background-color: #1a73e8;
+.dept.active {
+    border: 1px solid #7fff7f;
+    background: #202634;
+}
+
+/* ================= TOGGLE ================= */
+
+.theme-toggle {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.theme-toggle button {
+    padding: 6px 18px;
+    border-radius: 20px;
+    border: none;
+    background: #2a2f40;
     color: white;
-    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.theme-toggle .active {
+    background: #444b67;
+}
+
+/* ================= CHAT AREA ================= */
+
+.chat-area {
+    flex: 1;
+    position: relative;
+    padding: 25px;
+    background: url("../images/ccs_room.jpg") no-repeat center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+/* ================= MESSAGES ================= */
+
+.messages-container {
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-right: 10px;
+}
+
+/* ========== LEFT MESSAGE (OTHER USER) ========== */
+
+.message.left {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 75%;
+}
+
+.message.left .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #b39b6a;
+}
+
+.message.left .bubble {
+    background: #8a8a8a;
+    border-radius: 14px;
+    border-left: 6px solid #6cff6c;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: black;
+    min-width: 180px;
+}
+
+/* ========== RIGHT MESSAGE (YOU) ========== */
+
+.message.right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-left: auto;
+    max-width: 75%;
+}
+
+.message.right .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.message.right .bubble {
+    background: #8cff59;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: black;
+    min-width: 180px;
+}
+
+/* ================= INPUT BAR ================= */
+
+.chat-input {
+    position: absolute;
+    bottom: 20px;
+    left: 25px;
+    width: calc(100% - 50px);
+    display: flex;
+    gap: 12px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px 18px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.chat-input button {
+    padding: 12px 28px;
+    border-radius: 25px;
+    border: none;
+    background: #3a3f51;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
 }

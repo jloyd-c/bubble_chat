@@ -16,3 +16,8 @@ daphne -p 8000 Bubble_chat.asgi:application
 git add .
 git commit -m "Move all apps into apps/ folder and update paths"
 git push
+
+
+
+for cleanup of message in database
+python manage.py cleanup_messages

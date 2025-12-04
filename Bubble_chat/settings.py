@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'Bubble_chat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bubble_chat',      # your database name
+        'USER': 'bubble_user',      # your PostgreSQL user
+        'PASSWORD': 'jhonjhon',    # the password you set
+        'HOST': 'localhost',        # usually localhost
+        'PORT': '5432',             # default PostgreSQL port
     }
 }
 
