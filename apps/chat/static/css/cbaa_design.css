@@ -1,0 +1,17 @@
+/* cbaa_design.css - CBAA SPECIFIC STYLES ONLY */
+@import "base.css";
+
+/* CBAA-specific background */
+.chat-area {
+    background: linear-gradient(135deg, #1b5e20 0%, #388e3c 100%);
+}
+
+/* CBAA room-specific colors */
+.message.left .avatar {
+    background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+}
+
+.message.left .bubble {
+    background: #2e7d32;
+    border-left: 4px solid #69F0AE;
+}

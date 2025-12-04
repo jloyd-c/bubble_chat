@@ -1,203 +1,215 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* ccs_design.css - CCS SPECIFIC STYLES (Green Theme) */
+@import "base.css";
+
+/* ================= CCS COLOR VARIABLES ================= */
+:root {
+    --ccs-primary: #1e222e;
+    --ccs-sidebar: #151924;
+    --ccs-message-left: #2a2f40;
+    --ccs-message-right: #4CAF50;
+    --ccs-accent: #4CAF50;
+    --ccs-online: #7fff7f;
+    --ccs-input: #2a2f40;
+    --ccs-avatar-left: #b39b6a;
+    --ccs-avatar-right: #4CAF50;
 }
 
-body {
-    background: #1e222e;
-    height: 100vh;
+/* ================= CCS CHAT AREA ================= */
+.chat-area {
+    background: var(--ccs-primary);
+    /* Remove the background image since it causes 404 error */
+    /* background: url("../images/ccs_room.jpg") no-repeat center; */
 }
 
-/* ================= MAIN LAYOUT ================= */
-
-.chat-container {
-    display: flex;
-    height: 100vh;
-    width: 100vw;
-}
-
-/* ================= SIDEBAR ================= */
-
+/* ================= CCS SIDEBAR ================= */
 .sidebar {
-    width: 300px;
-    background: #151924;
-    padding: 20px;
-    color: white;
-    position: relative;
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 18px;
-    letter-spacing: 1px;
-}
-
-.dept {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    background: #1f2433;
-    text-decoration: none;
-    color: white;
-    transition: 0.2s ease;
-}
-
-.dept:hover {
-    background: #2a3045;
-}
-
-.dept img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-}
-
-.dept h4 {
-    font-size: 14px;
-}
-
-.dept p {
-    font-size: 11px;
-    color: #7fff7f;
+    background: var(--ccs-sidebar);
 }
 
 .dept.active {
-    border: 1px solid #7fff7f;
+    border: 2px solid var(--ccs-accent);
     background: #202634;
 }
 
-/* ================= TOGGLE ================= */
-
-.theme-toggle {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    display: flex;
-    gap: 10px;
+.dept p {
+    color: var(--ccs-online);
 }
 
-.theme-toggle button {
-    padding: 6px 18px;
-    border-radius: 20px;
-    border: none;
-    background: #2a2f40;
+/* ================= CCS MESSAGE BUBBLES ================= */
+/* Left message (other users) */
+.message.left .avatar {
+    background: var(--ccs-avatar-left);  /* Gold/beige */
+    border: 2px solid #8a7a52;
+}
+
+.message.left .bubble {
+    background: var(--ccs-message-left);
+    border-left: 4px solid var(--ccs-accent);  /* Green accent line */
     color: white;
-    font-size: 12px;
-    cursor: pointer;
 }
 
+.message.left .bubble::before {
+    border-color: transparent transparent var(--ccs-message-left) transparent;
+}
+
+/* Right message (current user) */
+.message.right .avatar {
+    background: var(--ccs-avatar-right);  /* Green */
+    border: 2px solid #388E3C;
+}
+
+.message.right .bubble {
+    background: var(--ccs-message-right);
+    color: var(--ccs-primary);  /* Dark text on green background */
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+}
+
+.message.right .bubble::before {
+    border-color: transparent var(--ccs-message-right) transparent transparent;
+}
+
+/* ================= CCS INPUT BAR ================= */
+.chat-input {
+    background: rgba(30, 34, 46, 0.95);
+}
+
+.chat-input input {
+    background: var(--ccs-input);
+}
+
+.chat-input input:focus {
+    box-shadow: 0 0 0 2px var(--ccs-accent);
+}
+
+.chat-input button {
+    background: var(--ccs-accent);
+    color: white;
+}
+
+.chat-input button:hover {
+    background: #45a049;
+}
+
+/* ================= CCS MOBILE COMPONENTS ================= */
+.mobile-menu-toggle {
+    background: var(--ccs-accent);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.mobile-back-button {
+    background: #f5576c;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+}
+
+.mobile-room-header {
+    background: var(--ccs-sidebar);
+}
+
+.online-counter {
+    background: var(--ccs-accent);
+}
+
+/* ================= CCS THEME TOGGLE ================= */
 .theme-toggle .active {
     background: #444b67;
 }
 
-/* ================= CHAT AREA ================= */
-
-.chat-area {
-    flex: 1;
-    position: relative;
-    padding: 25px;
-    background: url("../images/ccs_room.jpg") no-repeat center;
-    background-size: cover;
-    overflow: hidden;
+/* ================= CCS TYPING INDICATOR ================= */
+.typing-indicator {
+    background: rgba(42, 47, 64, 0.8);
+    color: var(--ccs-online);
+    border: 1px solid rgba(127, 255, 127, 0.3);
 }
 
-/* ================= MESSAGES ================= */
-
-.messages-container {
-    height: calc(100vh - 120px);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-right: 10px;
-}
-
-/* ========== LEFT MESSAGE (OTHER USER) ========== */
-
-.message.left {
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    max-width: 75%;
-}
-
-.message.left .avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #b39b6a;
-}
-
-.message.left .bubble {
-    background: #8a8a8a;
-    border-radius: 14px;
-    border-left: 6px solid #6cff6c;
-    padding: 14px 18px;
-    font-size: 14px;
-    color: black;
-    min-width: 180px;
-}
-
-/* ========== RIGHT MESSAGE (YOU) ========== */
-
-.message.right {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-left: auto;
-    max-width: 75%;
-}
-
-.message.right .avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #ccc;
-}
-
-.message.right .bubble {
-    background: #8cff59;
-    border-radius: 14px;
-    padding: 14px 18px;
-    font-size: 14px;
-    color: black;
-    min-width: 180px;
-}
-
-/* ================= INPUT BAR ================= */
-
-.chat-input {
-    position: absolute;
-    bottom: 20px;
-    left: 25px;
-    width: calc(100% - 50px);
-    display: flex;
-    gap: 12px;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 12px 18px;
-    border-radius: 25px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-}
-
-.chat-input button {
-    padding: 12px 28px;
-    border-radius: 25px;
-    border: none;
-    background: #3a3f51;
+/* ================= CCS CONNECTION STATUS ================= */
+.connection-status.connected {
+    background: var(--ccs-accent);
     color: white;
-    font-size: 14px;
-    cursor: pointer;
+}
+
+/* ================= CCS USER PROFILE ================= */
+.user-profile {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(127, 255, 127, 0.2);
+}
+
+.user-profile h4 {
+    color: white;
+}
+
+.user-profile p {
+    color: var(--ccs-online);
+}
+
+.change-nickname-btn {
+    border: 1px solid var(--ccs-accent);
+    color: var(--ccs-accent);
+}
+
+.change-nickname-btn:hover {
+    background: rgba(76, 175, 80, 0.1);
+}
+
+/* ================= CCS SCROLLBAR ================= */
+.messages-container::-webkit-scrollbar-thumb {
+    background: rgba(127, 255, 127, 0.3);
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(127, 255, 127, 0.5);
+}
+
+/* ================= CCS LIGHT MODE OVERRIDES ================= */
+[data-theme="light"] {
+    --ccs-primary: #f5f5f5;
+    --ccs-sidebar: #ffffff;
+    --ccs-message-left: #ffffff;
+    --ccs-message-right: #0084ff;
+    --ccs-accent: #0084ff;
+    --ccs-online: #008000;
+    --ccs-input: #f0f0f0;
+    --ccs-avatar-left: #b39b6a;
+    --ccs-avatar-right: #0084ff;
+}
+
+[data-theme="light"] .sidebar {
+    color: #333;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .dept {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #e9ecef;
+}
+
+[data-theme="light"] .dept.active {
+    background: #e3f2fd;
+    border-color: var(--ccs-accent);
+}
+
+[data-theme="light"] .message.left .bubble {
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .message.right .bubble {
+    color: white;
+}
+
+[data-theme="light"] .sender-name {
+    color: #666;
+}
+
+[data-theme="light"] .message-time {
+    color: #888;
+}
+
+[data-theme="light"] .chat-input {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+[data-theme="light"] .mobile-room-header {
+    background: var(--ccs-sidebar);
+    color: #333;
 }
